@@ -5,5 +5,5 @@ require 'faker'
 end
 
 5.times do 
-Recipe.create({name: Faker::Food.dish})
+    Recipe.create({name: Faker::Food.dish})
 end 

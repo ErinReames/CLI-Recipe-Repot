@@ -20,6 +20,6 @@ class CommandLineInterface
     def run
         self.greet
         self.welcome
-        self.instructions
+        # self.instructions
     end
 end

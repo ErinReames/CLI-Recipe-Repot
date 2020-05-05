@@ -9,17 +9,48 @@ class CommandLineInterface
     end
 
     def welcome
-        puts "Welcome #{@user_name}!"
+        puts "Welcome #{@user_name}! \n"
+        sleep(1)
         puts "You may now search for a recipe, rate a recipe, or contribute your own!\nIf you would like help, type in 'help' at any time."
+        sleep (1)
     end
 
+    
     def menu
-        
+        puts "
+        1 - Create a recipe \n
+        2 - Search for recipe \n
+        3 - Rate a recipe \n
+        4 - Give me a random recipe! \n
+        5 - Delete/update a rating \n
+        6 - Exit the application \n
+        "
+        reply = gets.chomp
+        menu_functions(reply)
     end
-
+    
+    
     def run
         self.greet
         self.welcome
+        self.menu
         # self.instructions
+    end
+    
+    private
+
+    def menu_functions(reply)
+        case reply
+        when "1"
+            puts "Let's create a new recipe! What is your recipe called?"
+            recipe_name = gets.chomp
+            puts "What are the ingredients for #{recipe_name}?"
+            recipe_ingredients = gets.chomp
+            # STRETCH GOAL - POLISH the way we take, store, and display recipe ingredients
+            puts "Wow, what is the descripton?"
+            recipe_description = gets.chomp
+            Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
+
+        end
     end
 end

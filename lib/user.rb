@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
 
     def list_recipes
         if self.recipes.count >= 1
-            count = 1
             self.recipes.each do |recipe| 
                 puts "#{recipe.name}"
                 puts "#{recipe.ingredients}"

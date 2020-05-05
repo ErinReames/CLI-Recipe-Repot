@@ -35,7 +35,9 @@ class CommandLineInterface
             self.menu
         when "2"
             # self.recipe_search_menu
-            
+            temp = Recipe.list_all_recipes
+            @you.recipes << temp
+            self.menu
         when "3"
             # Rate a recipe 
             @you.update_my_recipe_rating

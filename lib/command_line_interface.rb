@@ -1,7 +1,7 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
     def greet
-        puts "Welcome to The Recipie Repo!\nPlease enter your name in order to log in or create your account."
+        puts "Welcome to The Recipe Repo!\nPlease enter your name in order to log in or create your account."
         #then we need to get.chomp or get.strip their name and use it for a User.find_or_creat_by(name: )
         #but where do we write this get.chomp method?
         @user_name = gets.chomp
@@ -48,7 +48,7 @@ class CommandLineInterface
             puts "What are the ingredients for #{recipe_name}?"
             recipe_ingredients = gets.chomp
             # STRETCH GOAL - POLISH the way we take, store, and display recipe ingredients
-            puts "Wow, what is the descripton?"
+            puts "Wow, what is the descripton??"
             recipe_description = gets.chomp
             Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
         

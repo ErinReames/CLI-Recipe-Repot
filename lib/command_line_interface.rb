@@ -11,7 +11,7 @@ class CommandLineInterface
     def welcome
         puts "Welcome #{@user_name}! \n"
         sleep(1)
-        puts "You may now search for a recipe, rate a recipe, or contribute your own!\nIf you would like help, type in 'help' at any time."
+        puts "You may now search for a recipe, rate a recipe, or contribute your own!"
         sleep (1)
     end
 
@@ -22,8 +22,10 @@ class CommandLineInterface
         2 - Search for recipe \n
         3 - Rate a recipe \n
         4 - Give me a random recipe! \n
-        5 - Delete/update a rating \n
-        6 - Exit the application \n
+        5 - Update a rating \n
+        6 - Delete a rating \n
+        #7. Exit the application
+        #8. 
         "
         reply = gets.chomp
         menu_functions(reply)
@@ -54,15 +56,37 @@ class CommandLineInterface
             # self.recipe_search_menu
             
         when "3"
-            # @user_name.recipes
+            # Rate a recipe 
             @you.display_my_recipes
             self.menu
 
         when "4"
-    
+           # Give me a random recipe!
+            puts "So you're feeling lucky, huh?"
+            #pull a random recipe from the database
+            #display in user friendly way
+            random = Recipe.all.sample 
+            @you.recipes << random
+            #random.each{|k, v|puts "v"}
+            puts "#{random.name}"
+            puts "#{random.ingredients}"
+            puts "#{random.description}"
+            puts "#{random.rating}"
+            #binding.pry
+
         when "5"
-        
+            # update a rating
+            @you.display_my_recipes
+            self.menu
+            
         when "6"
+            #delete a rating
+           # puts "Are you sure you want to delete this rating?"
+            @you.delete_my_recipe_rating
+            self.menu
+
+
+        when "7"
             puts "Thank you. Hope to see you again!"
         
         else

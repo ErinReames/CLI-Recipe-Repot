@@ -13,9 +13,9 @@ class CommandLineInterface
         puts "You may now search for a recipe, rate a recipe, or contribute your own!\nIf you would like help, type in 'help' at any time."
     end
 
-   def menu
+    def menu
         
-   end
+    end
 
     def run
         self.greet

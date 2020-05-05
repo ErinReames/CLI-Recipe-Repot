@@ -11,7 +11,6 @@ class CommandLineInterface
     def welcome
         puts "Welcome #{@user_name}! \n"
         sleep(1)
-        binding.pry
         puts "You may now search for a recipe, rate a recipe, or contribute your own!\nIf you would like help, type in 'help' at any time."
         sleep (1)
     end
@@ -37,8 +36,6 @@ class CommandLineInterface
         self.menu
         # self.instructions
     end
-    
-    private
 
     def menu_functions(reply)
         case reply
@@ -51,17 +48,22 @@ class CommandLineInterface
             puts "Wow, what is the descripton??"
             recipe_description = gets.chomp
             Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
-        
+            self.menu
+
         when "2"
+            # self.recipe_search_menu
             
         when "3"
-        
+            # @user_name.recipes
+            @you.display_my_recipes
+            self.menu
+
         when "4"
-        
+    
         when "5"
         
         when "6"
-            "Thank you. Hope to see you again!"
+            puts "Thank you. Hope to see you again!"
         
         else
             self.error
@@ -73,4 +75,10 @@ class CommandLineInterface
         puts "Please enter a valid number (1 through 6)"
         self.menu
     end
+
+    # def recipe_search_menu
+    #     puts "How would you like to search for a recipe?"
+    #     puts "
+    #     1. "
+    # end
 end

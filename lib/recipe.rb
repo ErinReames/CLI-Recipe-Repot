@@ -5,16 +5,24 @@ class Recipe < ActiveRecord::Base
     attr_accessor :new_array
     
     def self.averaged(rating)
-        all.select {|recipe| recipe.avg_rating.class == Integer && recipe.avg_rating >= rating.to_i}
+        all.select {|recipe| recipe.avg_rating_method.class == Integer && recipe.avg_rating_method >= rating.to_i}
+    end
+
+    def avg_rating_method
+        ratings_array = self.records.map{|r|r.user_rating}.compact
+        if ratings_array.count > 0
+            new_rating = ratings_array.inject{|sum,v|sum+v}/(ratings_array.count)
+            return new_rating
+        else
+            return "No rating"
+        end
     end
 
     def avg_rating
         ratings_array = self.records.map{|r|r.user_rating}.compact
         if ratings_array.count > 0
             new_rating = ratings_array.inject{|sum,v|sum+v}/(ratings_array.count)
-        self.update(rating: new_rating)
-        #self.save
-        new_rating
+            return new_rating
         else 
             puts "This recipe has not been rated yet"
             return "No rating"

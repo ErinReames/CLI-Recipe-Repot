@@ -16,9 +16,10 @@ class User < ActiveRecord::Base
             puts "Your previous rating was #{record.user_rating}."
         end
         puts "What would you like to rate this recipe, on a scale of 1 to 5?"
-        rating = gets.chomp.to_i
-        record.user_rating = rating
-        record.save
+        new_rating = gets.chomp.to_i
+        record.update(user_rating: new_rating)
+        #record.user_rating = rating
+        #record.save
     end
 
     def delete_rating(my_record)
@@ -54,6 +55,7 @@ class User < ActiveRecord::Base
         record = pick_my_recipes
         create_or_update_rating(record)
         @recipe.avg_rating
+        self.save 
         else
         puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end

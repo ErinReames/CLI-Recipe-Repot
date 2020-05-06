@@ -4,6 +4,10 @@ class Recipe < ActiveRecord::Base
     has_many :users, through: :records
     attr_accessor :new_array
     
+    def self.averaged(rating)
+        all.select {|recipe| recipe.avg_rating.class == Integer && recipe.avg_rating >= rating.to_i}
+    end
+
     def avg_rating
         ratings_array = self.records.map{|r|r.user_rating}.compact
         if ratings_array.count > 0
@@ -13,6 +17,7 @@ class Recipe < ActiveRecord::Base
         new_rating
         else 
             puts "This recipe has not been rated yet"
+            return "No rating"
         end
     end
 
@@ -29,17 +34,14 @@ class Recipe < ActiveRecord::Base
 
     def self.list_rated_recipes(min)
         count = 1
-        @new_array = []
         puts "\n"
-        Recipe.all.each do |recipe| 
-            if recipe.rating && recipe.rating >= min.to_i
+        array = Recipe.averaged(min)
+        array.each do |recipe|
             puts "#{count} #{recipe.name}\n "
-            @new_array << recipe
             count +=1
-            end
         end
         puts "Enter the number for the recipe you'd like to add."
-        select_recipe(@new_array)
+        select_recipe(array)
     end
 
     def self.select_recipe(array)

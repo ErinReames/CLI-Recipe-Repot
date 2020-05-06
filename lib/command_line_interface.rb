@@ -1,7 +1,7 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
     def greet
-        puts "\n\nWelcome to The Recipe Repo!\n"
+        puts "\n\nWelcome to The Recipe Repo! \n"
         sleep (1)
         puts "Please enter your name in order to log in or create your account.\n"
         @user_name = gets.chomp

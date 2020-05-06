@@ -20,7 +20,7 @@ class Recipe < ActiveRecord::Base
         count = 1
         puts "\n"
         Recipe.all.each do |recipe| 
-            puts "#{count} #{recipe.name}\n"
+            puts "#{count} #{recipe.name}\n "
             count +=1
         end
         puts "Enter the number for the recipe you'd like to add."
@@ -33,7 +33,7 @@ class Recipe < ActiveRecord::Base
         puts "\n"
         Recipe.all.each do |recipe| 
             if recipe.rating && recipe.rating >= min.to_i
-            puts "#{count} #{recipe.name}\n"
+            puts "#{count} #{recipe.name}\n "
             @new_array << recipe
             count +=1
             end
@@ -47,11 +47,13 @@ class Recipe < ActiveRecord::Base
         if response.to_i && response.to_i <= array.count
             puts "Added!"
             sleep (1)
+            puts "Come back and rate it once you try it out!"
+            sleep (1)
             array[(response.to_i - 1)]
         else
             puts "Sorry, that is an invalid input."
             sleep (1)
-            puts "We will not return you to the menu"
+            puts "We will now return you to the menu"
             sleep (1)
             nil
         end

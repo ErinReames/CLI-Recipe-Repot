@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
                 puts "#{recipe.ingredients}"
                 puts "#{recipe.description}"
                 puts "#{recipe.avg_rating}\n\n"
+                sleep (0.5)
             end
         else
             puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
@@ -55,6 +56,7 @@ class User < ActiveRecord::Base
         create_or_update_rating(record)
         @recipe.avg_rating
         self.save 
+        puts "Done!"
         else
         puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end
@@ -70,6 +72,7 @@ class User < ActiveRecord::Base
         record = pick_my_recipes
         delete_rating(record)
         @recipe.avg_rating
+        puts "Done!"
         else
         puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end

@@ -1,7 +1,9 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
     def greet
-        puts "Welcome to The Recipe Repo!\nPlease enter your name in order to log in or create your account."
+        puts "Welcome to The Recipe Repo!"
+        sleep (1)
+        puts "Please enter your name in order to log in or create your account."
         @user_name = gets.chomp
         @you = User.find_or_create_by(name: @user_name)
     end
@@ -32,6 +34,10 @@ class CommandLineInterface
         when "1"
             #create a recipe
             self.create_recipe
+            sleep (1)
+            puts "You did it!"
+            puts "Your recipe is now published for everyone to see!"
+            sleep (1.5)
             self.menu
         when "2"
             # self.recipe_search_menu
@@ -39,25 +45,31 @@ class CommandLineInterface
             if temp
                 @you.recipes << temp
             end
+            sleep (1)
             self.menu
         when "3"
             #gives random recipe
             self.random_recipe
+            sleep (1.5)
             self.menu
         when "4"
             # Rate a recipe 
             @you.update_my_recipe_rating
+            sleep (1)
             self.menu
         when "5"
             # update a rating
             @you.update_my_recipe_rating
+            sleep (1)
             self.menu     
         when "6"
             #delete a rating
             @you.delete_my_recipe_rating
+            sleep (1)
             self.menu
         when "7"
             @you.list_recipes
+            sleep (0.5)
             self.menu
         when "8"
             puts "Thank you. Hope to see you again!"
@@ -89,11 +101,17 @@ class CommandLineInterface
     def random_recipe
         puts "So you're feeling lucky, huh?"
         random = Recipe.all.sample 
+        sleep (1)
+        puts "Here's your recipe!"
         @you.recipes << random
         puts "#{random.name}"
+        sleep (1)
         puts "#{random.ingredients}"
+        sleep (1)
         puts "#{random.description}"
         puts "#{random.rating}"
+        sleep (1)
+        puts "Come back and rate it once you try it out!"
     end
 
     def create_recipe

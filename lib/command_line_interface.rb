@@ -75,6 +75,7 @@ class CommandLineInterface
             puts "Thank you. Hope to see you again!"
         else
             self.error
+            self.menu
         end
     end
 
@@ -87,15 +88,21 @@ class CommandLineInterface
         when "2"
             puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)"
             new_reply = gets.chomp
-            temp = Recipe.list_rated_recipes(new_reply.to_i)
+            if new_reply.to_i > 0 && new_reply.to_i < 6
+                temp = Recipe.list_rated_recipes(new_reply.to_i)
+            else
+                self.error
+                temp = nil
+            end
         end
         temp 
     end
 
     def error
         puts "That was an invalid entry."
-        puts "Please enter a valid number (1 through 6)"
-        self.menu
+        sleep (1)
+        puts "You will now be returned to the menu screen"
+        sleep (1)
     end
 
     def random_recipe

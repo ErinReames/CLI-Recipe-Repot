@@ -2,11 +2,11 @@ class User < ActiveRecord::Base
     has_many :records
     has_many :recipes, through: :records
 
-    attr_accessor :my_record
+    attr_accessor :my_record, :recipe
         
     def pick_my_recipes
         response = gets.chomp.to_i 
-        recipe = self.recipes[response - 1]
+        @recipe = self.recipes[response - 1]
         my_record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
         my_record
     end
@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
         end
         record = pick_my_recipes
         create_or_update_rating(record)
-
+        @recipe.avg_rating
         else
         puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end
@@ -64,8 +64,7 @@ class User < ActiveRecord::Base
         end
         record = pick_my_recipes
         delete_rating(record)
-
-
+        @recipe.avg_rating
         else
         puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end

@@ -33,10 +33,10 @@ class User < ActiveRecord::Base
     def list_recipes
         if self.recipes.count >= 1
             self.recipes.uniq.each do |recipe| 
-                puts "#{recipe.name}"
+                puts "\n#{recipe.name}"
                 puts "#{recipe.ingredients}"
                 puts "#{recipe.description}"
-                puts "#{recipe.avg_rating}\n\n"
+                puts "#{recipe.avg_rating}\n"
                 sleep (0.5)
             end
         else

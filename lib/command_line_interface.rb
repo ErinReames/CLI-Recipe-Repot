@@ -1,9 +1,9 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
     def greet
-        puts "Welcome to The Recipe Repo!"
+        puts "\n\nWelcome to The Recipe Repo!\n"
         sleep (1)
-        puts "Please enter your name in order to log in or create your account."
+        puts "Please enter your name in order to log in or create your account.\n"
         @user_name = gets.chomp
         if User.find_by(name: @user_name) != nil
             puts "Welcome back #{@user_name}!\n"
@@ -25,7 +25,7 @@ class CommandLineInterface
         5 - Update a rating \n
         6 - Delete a rating \n
         7 - List My Recipies \n
-        8 - Exit the application"
+        8 - Exit the application\n"
         reply = gets.chomp
         menu_functions(reply)
     end
@@ -33,51 +33,30 @@ class CommandLineInterface
     def menu_functions(reply)
         case reply
         when "1"
-            #create a recipe
             self.create_recipe
-            sleep (1)
-            puts "You did it!"
-            puts "Your recipe is now published for everyone to see!"
-            sleep (1.5)
-            self.menu
         when "2"
-            # self.recipe_search_menu
             temp = self.recipe_search_menu
             if temp
                 @you.recipes << temp
             end
-            sleep (1)
-            self.menu
         when "3"
-            #gives random recipe
             self.random_recipe
-            sleep (1.5)
-            self.menu
         when "4"
-            # Rate a recipe 
             @you.update_my_recipe_rating
-            sleep (1)
-            self.menu
         when "5"
-            # update a rating
-            @you.update_my_recipe_rating
-            sleep (1)
-            self.menu     
+            @you.update_my_recipe_rating   
         when "6"
-            #delete a rating
             @you.delete_my_recipe_rating
-            sleep (1)
-            self.menu
         when "7"
             @you.list_recipes
-            sleep (0.5)
-            self.menu
         when "8"
             puts "Thank you. Hope to see you again!"
+            return "Goodbye."
         else
             self.error
-            self.menu
         end
+        sleep (1.3)
+        menu
     end
 
     def recipe_search_menu
@@ -123,14 +102,16 @@ class CommandLineInterface
     end
 
     def create_recipe
-        puts "Let's create a new recipe! What is your recipe called?"
+        puts "Let's create a new recipe! What is your recipe called?\n"
         recipe_name = gets.chomp
-        puts "What are the ingredients for #{recipe_name}?"
+        puts "\nWhat are the ingredients for #{recipe_name}?\n"
         recipe_ingredients = gets.chomp
-            # STRETCH GOAL - POLISH the way we take, store, and display recipe ingredients
-        puts "Wow, what is the descripton??"
+        puts "\nWow, what is the descripton?\n"
         recipe_description = gets.chomp
         Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
+        sleep (1)
+        puts "\nYou did it!\n"
+        puts "Your recipe is now published for everyone to see!\n"
     end
 
     def run

@@ -4,6 +4,7 @@ require 'faker'
     User.create({name: Faker::Name.name})
 end
 
+
 10.times do 
     temp_ingredients = []
     3.times do 

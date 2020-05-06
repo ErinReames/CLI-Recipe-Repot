@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
                 puts "#{recipe.name}"
                 puts "#{recipe.ingredients}"
                 puts "#{recipe.description}"
-                puts "#{recipe.rating}\n\n"
+                puts "#{recipe.avg_rating}\n\n"
             end
         else
             puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
 
     def update_my_recipe_rating
         if self.recipes.count >= 1
-        puts "Enter the coorisponding number of the recipe you wish to rate."
+        puts "Enter the cooresponding number of the recipe you wish to rate."
         count = 1
         self.recipes.each do |recipe| 
             puts "#{count} #{recipe.name}"

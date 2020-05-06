@@ -2,7 +2,7 @@
 class Recipe < ActiveRecord::Base
     has_many :records 
     has_many :users, through: :records
-
+    attr_accessor :new_array
     
     def avg_rating
         ratings_array = self.records.map{|r|r.user_rating}.compact
@@ -18,17 +18,43 @@ class Recipe < ActiveRecord::Base
 
     def self.list_all_recipes
         count = 1
+        puts "\n"
         Recipe.all.each do |recipe| 
-            puts "#{count} #{recipe.name}"
+            puts "#{count} #{recipe.name}\n"
             count +=1
         end
         puts "Enter the number for the recipe you'd like to add."
-        select_recipe
+        select_recipe(Recipe.all)
     end
 
-    def self.select_recipe
+    def self.list_rated_recipes(min)
+        count = 1
+        @new_array = []
+        puts "\n"
+        Recipe.all.each do |recipe| 
+            if recipe.rating && recipe.rating >= min.to_i
+            puts "#{count} #{recipe.name}\n"
+            @new_array << recipe
+            count +=1
+            end
+        end
+        puts "Enter the number for the recipe you'd like to add."
+        select_recipe(@new_array)
+    end
+
+    def self.select_recipe(array)
         response = gets.chomp
-        Recipe.all[(response.to_i - 1)]
+        if response.to_i && response.to_i <= array.count
+            puts "Added!"
+            sleep (1)
+            array[(response.to_i - 1)]
+        else
+            puts "Sorry, that is an invalid input."
+            sleep (1)
+            puts "We will not return you to the menu"
+            sleep (1)
+            nil
+        end
     end
 
 end

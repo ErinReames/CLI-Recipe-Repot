@@ -35,8 +35,10 @@ class CommandLineInterface
             self.menu
         when "2"
             # self.recipe_search_menu
-            temp = Recipe.list_all_recipes
-            @you.recipes << temp
+            temp = self.recipe_search_menu
+            if temp
+                @you.recipes << temp
+            end
             self.menu
         when "3"
             #gives random recipe
@@ -64,11 +66,19 @@ class CommandLineInterface
         end
     end
 
-    # def recipe_search_menu
-    #     puts "How would you like to search for a recipe?"
-    #     puts "
-    #     1. "
-    # end
+    def recipe_search_menu
+        puts "Would you like to see all recipes or ony those above a certain rating?\n1. List all\n2. Of a certain Rating"
+        reply = gets.chomp
+        case reply
+        when "1"
+            temp = Recipe.list_all_recipes
+        when "2"
+            puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)"
+            new_reply = gets.chomp
+            temp = Recipe.list_rated_recipes(new_reply.to_i)
+        end
+        temp 
+    end
 
     def error
         puts "That was an invalid entry."

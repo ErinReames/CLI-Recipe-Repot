@@ -5,16 +5,17 @@ class CommandLineInterface
         sleep (1)
         puts "Please enter your name in order to log in or create your account."
         @user_name = gets.chomp
+        if User.find_by(name: @user_name) != nil
+            puts "Welcome back #{@user_name}!\n"
+        else
+            puts "Welcome #{@user_name}! \n"
+        end
         @you = User.find_or_create_by(name: @user_name)
-    end
-
-    def welcome
-        puts "Welcome #{@user_name}! \n"
         sleep(1)
         puts "You may now search for a recipe, rate a recipe, or contribute your own!"
         sleep (1)
     end
-    
+
     def menu
         puts "
         1 - Create a recipe \n
@@ -134,7 +135,6 @@ class CommandLineInterface
 
     def run
         self.greet
-        self.welcome
         self.menu
     end
 end

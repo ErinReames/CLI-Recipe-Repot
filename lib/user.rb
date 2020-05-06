@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
             end
         else
             puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
+            sleep (0.5)
         end
     end
 

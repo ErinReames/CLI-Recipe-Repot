@@ -7,15 +7,18 @@ class User < ActiveRecord::Base
     def pick_my_recipes
         response = gets.chomp.to_i 
         @recipe = self.recipes[response - 1]
-        my_record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
-        my_record
+        record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
+        record
     end
 
-    def create_or_update_rating(my_record)
+    def create_or_update_rating(record)
+        if record.user_rating
+            puts "Your previous rating was #{record.user_rating}."
+        end
         puts "What would you like to rate this recipe, on a scale of 1 to 5?"
         rating = gets.chomp.to_i
-        my_record.user_rating = rating
-        my_record.save
+        record.user_rating = rating
+        record.save
     end
 
     def delete_rating(my_record)
@@ -42,6 +45,7 @@ class User < ActiveRecord::Base
 
     def update_my_recipe_rating
         if self.recipes.count >= 1
+        puts "Enter the coorisponding number of the recipe you wish to rate."
         count = 1
         self.recipes.each do |recipe| 
             puts "#{count} #{recipe.name}"

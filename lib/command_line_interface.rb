@@ -17,8 +17,8 @@ class CommandLineInterface
         puts "
         1 - Create a recipe \n
         2 - Search for recipe \n
-        3 - Rate a recipe \n
-        4 - Give me a random recipe! \n
+        3 - Give me a random recipe! \n
+        4 - Rate a recipe \n
         5 - Update a rating \n
         6 - Delete a rating \n
         7 - List My Recipies \n
@@ -39,12 +39,12 @@ class CommandLineInterface
             @you.recipes << temp
             self.menu
         when "3"
-            # Rate a recipe 
-            @you.update_my_recipe_rating
-            self.menu
-        when "4"
             #gives random recipe
             self.random_recipe
+            self.menu
+        when "4"
+            # Rate a recipe 
+            @you.update_my_recipe_rating
             self.menu
         when "5"
             # update a rating

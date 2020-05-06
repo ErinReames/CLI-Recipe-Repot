@@ -3,6 +3,7 @@ class Recipe < ActiveRecord::Base
     has_many :records 
     has_many :users, through: :records
 
+    
     def avg_rating
         ratings_array = self.records.map{|r|r.user_rating}.compact
         self.rating = ratings_array.inject{|sum,v|sum+=v}/(ratings_array.count)

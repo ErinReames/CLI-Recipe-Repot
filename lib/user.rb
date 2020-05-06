@@ -19,14 +19,13 @@ class User < ActiveRecord::Base
         new_rating = gets.chomp.to_i
         record.update(user_rating: new_rating)
         #record.user_rating = rating
-        #record.save
+        record.save
     end
 
     def delete_rating(my_record)
         puts "Are you sure you want to delete - press y for yes or n for no"
         response = gets.chomp
         if response == "y"
-            
             my_record.update(user_rating: nil)
         end
     end

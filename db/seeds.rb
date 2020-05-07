@@ -3,7 +3,7 @@ require 'faker'
 Recipe.destroy_all
 
 # Seeding user names with Faker
-5.times do 
+10.times do 
     User.create({name: Faker::Name.name})
 end
 
@@ -20,8 +20,7 @@ count = 0
     count +=1
 end
 
-# Record instances with recipe ratings
-20.times do
+30.times do
     Record.create({
         user_id: (rand(5) + 1),
         recipe_id: (rand(5) + 1),

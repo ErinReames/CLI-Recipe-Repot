@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
                 puts Rainbow("Description: #{recipe.description}").red.bright
                 puts Rainbow("This recipe is tailored for #{recipe.best_for} diets").red.bright
                 if recipe.average > 0
-                    puts Rainbow("Rated #{recipe.average} out of 5 stars!\n").bright.red 
+                    puts Rainbow("Rated #{recipe.average} out of 5 stars!").bright.red 
                 else
                     puts Rainbow("This recipe hasn't been rated yet!").bright.red 
                 end

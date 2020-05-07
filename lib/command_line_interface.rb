@@ -198,9 +198,6 @@ class CommandLineInterface
         new_reply = gets.chomp.to_i
         if new_reply > 0 && the_diets[new_reply - 1]
             response = Recipe.list_by_diet(the_diets[new_reply - 1])
-            # if response == nil
-            #     nil
-            # end
         else
             self.error
             nil

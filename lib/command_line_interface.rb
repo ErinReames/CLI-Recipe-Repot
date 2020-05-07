@@ -1,5 +1,9 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
+    def the_diets
+        ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie", "Unrestricted"]
+    end
+
     def greet
         puts "\n"
         puts "Welcome to The Recipe Repo!"
@@ -68,21 +72,16 @@ class CommandLineInterface
     end
 
     def recipe_search_menu
-        puts "Would you like to see all recipes or ony those above a certain rating?\n\n1. List all\n\n2. Of a certain Rating\n"
+        puts "How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!"
         reply = gets.chomp
         puts "\n"
         case reply
         when "1"
             temp = Recipe.list_all_recipes
         when "2"
-            puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)\n"
-            new_reply = gets.chomp.to_i
-            if new_reply > 0 && new_reply < 6
-                temp = Recipe.list_rated_recipes(new_reply)
-            else
-                self.error
-                temp = nil
-            end
+            by_rating_helper
+        when "3"
+            by_diet_helper
         end
         temp 
     end
@@ -144,22 +143,48 @@ class CommandLineInterface
         self.menu
     end
 
-    def best_for_picker
-        puts "Is there a diet this recipe is best for?"
-        puts "\n"
-        diets = ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie"]
+    def list_diets
         count = 1
-        diets.each do |diet| 
+        the_diets.each do |diet| 
             puts "#{count} #{diet}"
             count +=1
         end
         puts "\n"
+    end
+
+    def best_for_picker
+        puts "Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'"
+        puts "\n"
+        list_diets
         response = gets.chomp.to_i 
-        if diets[response - 1]
-            diets[response - 1]
+        if the_diets[response - 1]
+            the_diets[response - 1]
         else 
-            puts "\nWe will set it to 'Unrestrcted'"
+            puts "\nSet to 'Unrestrcted'"
             return "Unrestricted"
+        end
+    end
+
+    def by_rating_helper
+        puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)\n"
+        new_reply = gets.chomp.to_i
+        if new_reply > 0 && new_reply < 6
+            temp = Recipe.list_rated_recipes(new_reply)
+        else
+            self.error
+            temp = nil
+        end
+    end
+
+    def by_diet_helper
+        puts "Which diet would you like to search by?\n"
+        list_diets
+        new_reply = gets.chomp.to_i
+        if new_reply > 0 && new_reply < the_diets.count
+            temp = Recipe.list_by_diet(the_diets[new_reply - 1])
+        else
+            self.error
+            temp = nil
         end
     end
 end

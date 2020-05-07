@@ -16,35 +16,34 @@ class Recipe < ActiveRecord::Base
     end
 
     def self.list_all_recipes
-        count = 1
-        puts "\n"
-        Recipe.all.each do |recipe| 
-            puts "#{count} #{recipe.name}\n "
-            count +=1
-        end
         select_recipe(all)
     end
 
     def self.list_rated_recipes(min)
-        count = 1
-        puts "\n"
         array = all.select {|recipe| recipe.average >= min}
-        array.each do |recipe|
-            puts "#{count} #{recipe.name}\n "
-            count +=1
-        end
+        select_recipe(array)
+    end
+
+    def self.list_by_diet(diet)
+        array = all.select {|recipe| recipe.best_for == diet}
         select_recipe(array)
     end
 
     def self.select_recipe(array)
+        puts "\n"
+        count = 1
+        array.each do |recipe|
+            puts "#{count} #{recipe.name}\n "
+            count +=1
+        end
         puts "Enter the number for the recipe you'd like to add.\n"
         response = gets.chomp.to_i
         if response && response  <= array.count
             puts "\nAdded!"
+            sleep (0.5)
             puts "\n"
-            sleep (1)
             puts "Come back and rate it once you try it out!"
-            sleep (1)
+            sleep (0.5)
             array[(response - 1)]
         else
             puts "Sorry, that is an invalid input."

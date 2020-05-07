@@ -1,13 +1,9 @@
 require 'faker'
 
-
-# Seeding user names with Faker
 10.times do 
     User.create({name: Faker::Name.name})
 end
 
-# Seeding recipes with a combination of API and Faker: name and ingredients are API and descrpition is Faker
-# Change any ingredients in this array to change what kind of recipes get seeded.  Each ingredient provides two recipes, for 10 total
 ingredients = ["eggs", "apple", "potato", "chocolate", "chicken"]
 count = 0
 5.times do

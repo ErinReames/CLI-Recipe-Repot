@@ -31,7 +31,8 @@ class CommandLineInterface
         5 - Update a rating \n
         6 - Delete a rating \n
         7 - List My Recipies \n
-        8 - Exit the application\n"
+        8 - Exit the application\n\n
+        Please enter the number for the option you wish to select."
         puts "\n"
         reply = gets.chomp
         puts "\n"

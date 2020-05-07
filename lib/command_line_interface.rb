@@ -82,21 +82,21 @@ class CommandLineInterface
         puts "Here's your recipe!"
         puts "\n"
         @you.recipes << random
-        puts "#{random.name}"
+        puts "Name: #{random.name}"
         sleep (1)
-        puts "#{random.ingredients}"
+        puts "Ingredients: #{random.ingredients}"
         sleep (1)
-        puts "#{random.description}"
+        puts "Description: #{random.description}"
         sleep(1)
-        puts "This recipe is best for people with a #{random.best_for} diet"
+        puts "This recipe is best for people with #{random.best_for} diets"
         sleep(1)
         if random.average > 0
-            puts "and the average rating for this recipe is #{random.average} out of 5 stars!"
+            puts "The average rating for this recipe is #{random.average} out of 5 stars!"
         else
             puts "This recipe hasn't been rated yet!"
         end
-        puts "\n"
         sleep (1)
+        puts "\n"
         puts "Come back and rate it once you try it out!"
     end
 
@@ -105,10 +105,12 @@ class CommandLineInterface
         recipe_name = gets.chomp
         puts "\nWhat are the ingredients for #{recipe_name}?\n"
         recipe_ingredients = gets.chomp
-        puts "\nWow, what is the descripton?\n"
+        puts "\nWow, what is the descripton?"
         recipe_description = gets.chomp
         puts "\n"
-        puts "Okay, almost there.\n"
+        puts "Okay, almost there."
+        sleep (1)
+        puts "\n"
         diet = best_for_picker
         Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description, best_for: diet})
         sleep (1)
@@ -125,7 +127,7 @@ class CommandLineInterface
     def list_diets
         count = 1
         the_diets.each do |diet| 
-            puts "#{count} #{diet}"
+            puts "#{count} - #{diet} \n "
             count +=1
         end
         puts "\n"
@@ -133,6 +135,7 @@ class CommandLineInterface
 
     def best_for_picker
         puts "Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'"
+        sleep (1)
         puts "\n"
         list_diets
         response = gets.chomp.to_i 
@@ -174,6 +177,7 @@ class CommandLineInterface
 
     def by_diet_helper
         puts "Which diet would you like to search by?\n"
+        puts "\n"
         list_diets
         new_reply = gets.chomp.to_i
         if new_reply > 0 && new_reply < the_diets.count

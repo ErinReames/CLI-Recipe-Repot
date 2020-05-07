@@ -27,19 +27,20 @@ class Recipe < ActiveRecord::Base
 
     def self.select_recipe(array)
         puts "\n"
+        puts "Enter the number for the recipe you'd like to add."
+        sleep (1)
+        puts "\n"
         count = 1
         array.each do |recipe|
-            puts "#{count} #{recipe.name}\n "
+            puts "#{count} - #{recipe.name}\n "
             count +=1
         end
-        puts "Enter the number for the recipe you'd like to add.\n"
         response = gets.chomp.to_i
-        if response && response  <= array.count
+        if response.class == Integer && response <= array.count
             puts "\nAdded!"
             sleep (0.5)
             puts "\n"
             puts "Come back and rate it once you try it out!"
-            sleep (0.5)
             array[(response - 1)]
         else
             puts "Sorry, that is an invalid input."

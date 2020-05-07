@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
         
     def pick_my_recipes
         response = gets.chomp.to_i 
+        puts "\n"
         if self.recipes[response - 1]
             recipe = self.recipes[response - 1]
             record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
@@ -41,10 +42,12 @@ class User < ActiveRecord::Base
 
     def update_or_delete__my_recipe_rating(action)
         if self.recipes.count >= 1
-            puts "Enter the cooresponding number of the recipe you wish to choose. \n"
+            puts "Enter the cooresponding number of the recipe you wish to choose."
+            sleep(1)
+            puts "\n"
             count = 1
             self.recipes.each do |recipe| 
-                puts "#{count} #{recipe.name}"
+                puts "#{count} - #{recipe.name}"
                 count +=1
             end
             puts "\n"
@@ -64,20 +67,18 @@ class User < ActiveRecord::Base
     def list_recipes
         if self.recipes.count >= 1
             self.recipes.uniq.each do |recipe| 
-                puts "\n#{recipe.name}"
-                puts "#{recipe.ingredients}"
-                puts "#{recipe.description}"
-                puts "#{recipe.best_for}"
+                puts "\nName: #{recipe.name}"
+                puts "Ingredients: #{recipe.ingredients}"
+                puts "Description: #{recipe.description}"
+                puts "This recipe is tailored for #{recipe.best_for} diets"
                 if recipe.average > 0
                     puts "Rated #{recipe.average} out of 5 stars!\n"
                 else
                     puts "This recipe hasn't been rated yet!"
                 end
-                sleep (0.5)
             end
         else
             puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
-            sleep (0.5)
         end
     end
 end

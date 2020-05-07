@@ -17,8 +17,8 @@ end
 
 30.times do
     Record.create({
-        user_id: (rand(5) + 1),
-        recipe_id: (rand(5) + 1),
+        user_id: (rand(10) + 1),
+        recipe_id: (rand(10) + 1),
         user_rating: (rand(5) + 1)
     })
 end

@@ -120,7 +120,7 @@ class CommandLineInterface
         recipe_name = gets.chomp
         puts Rainbow("\nWhat are the ingredients for #{recipe_name}?\n").red.bright
         recipe_ingredients = gets.chomp
-        puts Rainbow("\nWow, what is the descripton?").red.bright 
+        puts Rainbow("\nWow, what is the descripton?\n").red.bright 
         recipe_description = gets.chomp
         puts "\n"
         puts Rainbow("Okay, almost there.").red.bright
@@ -162,7 +162,7 @@ class CommandLineInterface
     end
 
     def recipe_search_menu
-        puts Rainbow("How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!").bright.red 
+        puts Rainbow("How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!\n").bright.red 
         reply = gets.chomp
         puts "\n"
         case reply

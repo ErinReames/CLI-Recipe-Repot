@@ -45,7 +45,7 @@ class CommandLineInterface
         4 - Rate a recipe \n
         5 - Update a rating \n
         6 - Delete a rating \n
-        7 - List My Recipies \n
+        7 - List My Recipes \n
         8 - Exit the application\n\n
         Please enter the number for the option you wish to select.").bright.red 
         puts "\n"

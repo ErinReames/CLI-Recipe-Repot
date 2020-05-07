@@ -158,6 +158,8 @@ class CommandLineInterface
             temp = by_rating_helper
         when "3"
             temp = by_diet_helper
+        else
+            self.error
         end
         if temp
             @you.recipes << temp

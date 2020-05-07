@@ -5,10 +5,8 @@ class User < ActiveRecord::Base
     def pick_my_recipes
         response = gets.chomp.to_i 
         puts "\n"
-        if self.recipes[response - 1]
-            recipe = self.recipes[response - 1]
-            record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
-            record
+        if self.recipes[response - 1].class == String && response > 0
+            Record.find_by({user_id: self.id, recipe_id: (self.recipes[response - 1]).id})
         else 
             puts "That was not an option."
             return false
@@ -25,7 +23,7 @@ class User < ActiveRecord::Base
             record.update(user_rating: new_rating.to_i)
             puts "\nDone!"
         else
-            puts "That was an invalid rating"
+            puts "\nThat was an invalid rating"
         end
     end
 
@@ -46,7 +44,7 @@ class User < ActiveRecord::Base
             sleep(1)
             puts "\n"
             count = 1
-            self.recipes.each do |recipe| 
+            self.recipes.uniq.each do |recipe| 
                 puts "#{count} - #{recipe.name}"
                 count +=1
             end

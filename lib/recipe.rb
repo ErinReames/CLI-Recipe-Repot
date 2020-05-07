@@ -36,7 +36,7 @@ class Recipe < ActiveRecord::Base
             count +=1
         end
         response = gets.chomp.to_i
-        if response.class == Integer && response <= array.count
+        if response > 0 && response <= array.count
             puts "\nAdded!"
             sleep (0.5)
             puts "\n"

@@ -27,19 +27,20 @@ class Recipe < ActiveRecord::Base
 
     def self.select_recipe(array)
         puts "\n"
+        puts "Enter the number for the recipe you'd like to add."
+        sleep (1)
+        puts "\n"
         count = 1
         array.each do |recipe|
-            puts Rainbow("#{count} #{recipe.name}\n ").red.bright
+            puts "#{count} - #{recipe.name}\n "
             count +=1
         end
-        puts Rainbow("Enter the number for the recipe you'd like to add.\n").bright.red 
         response = gets.chomp.to_i
-        if response && response  <= array.count
-            puts Rainbow("\nAdded!").bright.red 
+        if response > 0 && response <= array.count
+            puts "\nAdded!"
             sleep (0.5)
             puts "\n"
-            puts Rainbow("Come back and rate it once you try it out!").red.bright
-            sleep (0.5)
+            puts "Come back and rate it once you try it out!"
             array[(response - 1)]
         else
             puts Rainbow("Sorry, that is an invalid input.").red.bright.underline

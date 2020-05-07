@@ -7,3 +7,6 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem "rainbow"
+gem "rest-client"
+gem 'json'
+

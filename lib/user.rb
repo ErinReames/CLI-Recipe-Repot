@@ -4,10 +4,9 @@ class User < ActiveRecord::Base
         
     def pick_my_recipes
         response = gets.chomp.to_i 
-        if self.recipes[response - 1]
-            recipe = self.recipes[response - 1]
-            record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
-            record
+        puts "\n"
+        if self.recipes[response - 1].class == String && response > 0
+            Record.find_by({user_id: self.id, recipe_id: (self.recipes[response - 1]).id})
         else 
             puts Rainbow("That was not an option.").bright.underline.red 
             return false
@@ -24,7 +23,7 @@ class User < ActiveRecord::Base
             record.update(user_rating: new_rating.to_i)
             puts Rainbow("\nDone!").bright.red 
         else
-            puts Rainbow("That was an invalid rating").bright.underline.red 
+            puts "\nThat was an invalid rating"
         end
     end
 
@@ -41,10 +40,12 @@ class User < ActiveRecord::Base
 
     def update_or_delete__my_recipe_rating(action)
         if self.recipes.count >= 1
-            puts Rainbow("Enter the cooresponding number of the recipe you wish to choose. \n").bright.red 
+            puts "Enter the corresponding number of the recipe you wish to choose."
+            sleep(1)
+            puts "\n"
             count = 1
-            self.recipes.each do |recipe| 
-                puts Rainbow("#{count} #{recipe.name}").bright.red 
+            self.recipes.uniq.each do |recipe| 
+                puts "#{count} - #{recipe.name}"
                 count +=1
             end
             puts "\n"
@@ -64,20 +65,23 @@ class User < ActiveRecord::Base
     def list_recipes
         if self.recipes.count >= 1
             self.recipes.uniq.each do |recipe| 
-                puts "\n#{recipe.name}"
-                puts "#{recipe.ingredients}"
-                puts "#{recipe.description}"
-                puts "#{recipe.best_for}"
+                puts "\nName: #{recipe.name}"
+                puts "Ingredients: #{recipe.ingredients}"
+                puts "Description: #{recipe.description}"
+                puts "This recipe is tailored for #{recipe.best_for} diets"
                 if recipe.average > 0
                     puts Rainbow("Rated #{recipe.average} out of 5 stars!\n").bright.red 
                 else
                     puts Rainbow("This recipe hasn't been rated yet!").bright.red 
                 end
-                sleep (0.5)
             end
         else
+<<<<<<< HEAD
             puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
             sleep (0.5)
+=======
+            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
+>>>>>>> 1d0e2c0299b58f9a7ad5921c8c10557a50b6d387
         end
     end
 end

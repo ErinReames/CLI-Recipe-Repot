@@ -1,19 +1,23 @@
 class CommandLineInterface
     attr_accessor :user_name, :you
     def greet
-        puts "\n\nWelcome to The Recipe Repo! \n"
+        puts "\n"
+        puts "Welcome to The Recipe Repo!"
+        puts "\n"
         sleep (1)
-        puts "Please enter your name in order to log in or create your account.\n"
+        puts "Please enter your name in order to log in or create your account."
+        puts "\n"
         @user_name = gets.chomp
+        puts "\n"
         if User.find_by(name: @user_name) != nil
-            puts "Welcome back #{@user_name}!\n"
+            puts "Welcome back #{@user_name}!"
         else
-            puts "Welcome #{@user_name}! \n"
+            puts "Welcome #{@user_name}!"
         end
         @you = User.find_or_create_by(name: @user_name)
         sleep(1)
+        puts "\n"
         puts "You may now search for a recipe, rate a recipe, or contribute your own!"
-        # Recipe.assign_ratings
         sleep (1)
     end
 
@@ -27,7 +31,9 @@ class CommandLineInterface
         6 - Delete a rating \n
         7 - List My Recipies \n
         8 - Exit the application\n"
+        puts "\n"
         reply = gets.chomp
+        puts "\n"
         menu_functions(reply)
     end
 
@@ -56,18 +62,20 @@ class CommandLineInterface
         else
             self.error
         end
+        puts "\n"
         sleep (1)
         menu
     end
 
     def recipe_search_menu
-        puts "Would you like to see all recipes or ony those above a certain rating?\n1. List all\n2. Of a certain Rating"
+        puts "Would you like to see all recipes or ony those above a certain rating?\n\n1. List all\n\n2. Of a certain Rating\n"
         reply = gets.chomp
+        puts "\n"
         case reply
         when "1"
             temp = Recipe.list_all_recipes
         when "2"
-            puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)"
+            puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)\n"
             new_reply = gets.chomp.to_i
             if new_reply > 0 && new_reply < 6
                 temp = Recipe.list_rated_recipes(new_reply)
@@ -80,24 +88,33 @@ class CommandLineInterface
     end
 
     def error
+        puts "\n"
         puts "That was an invalid entry."
+        puts "\n"
         sleep (1)
         puts "You will now be returned to the menu screen"
-        sleep (1)
     end
 
     def random_recipe
         puts "So you're feeling lucky, huh?"
+        puts "\n"
         random = Recipe.all.sample 
         sleep (1)
         puts "Here's your recipe!"
+        puts "\n"
         @you.recipes << random
         puts "#{random.name}"
         sleep (1)
         puts "#{random.ingredients}"
         sleep (1)
         puts "#{random.description}"
-        puts "#{random.average}"
+        sleep(1)
+        if random.average > 0
+            puts "and the average rating for this recipe is #{random.average} out of 5 stars!"
+        else
+            puts "This recipe hasn't been rated yet!"
+        end
+        puts "\n"
         sleep (1)
         puts "Come back and rate it once you try it out!"
     end
@@ -111,7 +128,8 @@ class CommandLineInterface
         recipe_description = gets.chomp
         Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
         sleep (1)
-        puts "\nYou did it!\n"
+        puts "\nYou did it!"
+        puts "\n"
         sleep (1)
         puts "Your recipe is now published for everyone to see!\n"
     end

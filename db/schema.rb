@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 5) do
 
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.string "ingredients"
     t.string "description"
+    t.string "best_for"
   end
 
   create_table "records", force: :cascade do |t|

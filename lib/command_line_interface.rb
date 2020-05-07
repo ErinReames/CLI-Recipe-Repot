@@ -109,6 +109,8 @@ class CommandLineInterface
         sleep (1)
         puts "#{random.description}"
         sleep(1)
+        puts "This recipe is best for people with a #{random.best_for} diet"
+        sleep(1)
         if random.average > 0
             puts "and the average rating for this recipe is #{random.average} out of 5 stars!"
         else
@@ -126,7 +128,10 @@ class CommandLineInterface
         recipe_ingredients = gets.chomp
         puts "\nWow, what is the descripton?\n"
         recipe_description = gets.chomp
-        Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
+        puts "\n"
+        puts "Okay, almost there.\n"
+        diet = best_for_picker
+        Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description, best_for: diet})
         sleep (1)
         puts "\nYou did it!"
         puts "\n"
@@ -137,5 +142,24 @@ class CommandLineInterface
     def run
         self.greet
         self.menu
+    end
+
+    def best_for_picker
+        puts "Is there a diet this recipe is best for?"
+        puts "\n"
+        diets = ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie"]
+        count = 1
+        diets.each do |diet| 
+            puts "#{count} #{diet}"
+            count +=1
+        end
+        puts "\n"
+        response = gets.chomp.to_i 
+        if diets[response - 1]
+            diets[response - 1]
+        else 
+            puts "\nWe will set it to 'Unrestrcted'"
+            return "Unrestricted"
+        end
     end
 end

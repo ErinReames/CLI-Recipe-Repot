@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
         new_rating = gets.chomp
         if new_rating.to_i && new_rating.to_i > 0 && new_rating.to_i < 6
             record.update(user_rating: new_rating.to_i)
-            puts "\n5Done!"
+            puts "\nDone!"
         else
             puts "That was an invalid rating"
         end
@@ -44,8 +44,9 @@ class User < ActiveRecord::Base
                 puts "\n#{recipe.name}"
                 puts "#{recipe.ingredients}"
                 puts "#{recipe.description}"
+                puts "#{recipe.best_for}"
                 if recipe.average > 0
-                    puts "#{recipe.average} out of 5 stars!\n"
+                    puts "rated #{recipe.average} out of 5 stars!\n"
                 else
                     puts "This recipe hasn't been rated yet!"
                 end

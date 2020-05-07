@@ -1,24 +1,24 @@
 require 'faker'
 
+Recipe.destroy_all
+
+# Seeding user names with Faker
 10.times do 
     User.create({name: Faker::Name.name})
 end
 
-
-10.times do 
-    temp_ingredients = []
-    diets = ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie"]
-    3.times do 
-        temp_ingredients << Faker::Food.ingredient
+# Seeding recipes with a combination of API and Faker: name and ingredients are API and descrpition is Faker
+# Change any ingredients in this array to change what kind of recipes get seeded.  Each ingredient provides two recipes, for 10 total
+ingredients = ["eggs", "apple", "potato", "chocolate", "chicken"]
+count = 0
+5.times do
+    recipes = PuppyRecipe.get_data(ingredients[count],1)
+    recipes.each do |recipe|
+        entry = Recipe.new(recipe)
+        entry.save
     end
-    joined_ingredients = temp_ingredients.join(", ")
-    Recipe.create({
-        name: Faker::Food.dish,
-        ingredients: joined_ingredients,
-        description: Faker::Food.description,
-        best_for: diets.sample
-        })
-end 
+    count +=1
+end
 
 30.times do
     Record.create({

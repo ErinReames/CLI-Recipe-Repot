@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
         if response == "y"
             record.update(user_rating: nil)
             puts "Done!"
+            return true
         end
         puts "Aborted!\nReturning you to the menu."
     end

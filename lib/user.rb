@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
     def pick_my_recipes
         response = gets.chomp.to_i 
         puts "\n"
-        if self.recipes[response - 1].class == String && response > 0
+        if self.recipes[response - 1].name.class == String && response > 0
             Record.find_by({user_id: self.id, recipe_id: (self.recipes[response - 1]).id})
         else 
             puts Rainbow("That was not an option.").bright.underline.red 
@@ -23,29 +23,29 @@ class User < ActiveRecord::Base
             record.update(user_rating: new_rating.to_i)
             puts Rainbow("\nDone!").bright.red 
         else
-            puts "\nThat was an invalid rating"
+            puts Rainbow("\nThat was an invalid rating").red.bright.underline
         end
     end
 
     def delete_rating(record)
-        puts Rainbow("Are you sure you want to delete - enter 'y' to confirm, press any other key to abort").bright.red 
+        puts Rainbow("Are you sure you want to delete - enter 'y' to confirm, press any other key to abort. \n").bright.red 
         response = gets.chomp
         if response == "y"
             record.update(user_rating: nil)
-            puts Rainbow("Done!").red.bright
+            puts Rainbow("\nDone!").red.bright
             return true
         end
-        puts Rainbow("Aborted!\nReturning you to the menu.").bright.red 
+        puts Rainbow("Aborted!\nReturning you to the menu.").bright.red.underline
     end
 
     def update_or_delete__my_recipe_rating(action)
         if self.recipes.count >= 1
-            puts "Enter the corresponding number of the recipe you wish to choose."
+            puts Rainbow("Enter the corresponding number of the recipe you wish to choose.").red.bright
             sleep(1)
             puts "\n"
             count = 1
             self.recipes.uniq.each do |recipe| 
-                puts "#{count} - #{recipe.name}"
+                puts Rainbow("#{count} - #{recipe.name} \n").bright.red 
                 count +=1
             end
             puts "\n"
@@ -65,23 +65,20 @@ class User < ActiveRecord::Base
     def list_recipes
         if self.recipes.count >= 1
             self.recipes.uniq.each do |recipe| 
-                puts "\nName: #{recipe.name}"
-                puts "Ingredients: #{recipe.ingredients}"
-                puts "Description: #{recipe.description}"
-                puts "This recipe is tailored for #{recipe.best_for} diets"
+                puts Rainbow("\nName: #{recipe.name}").red.bright
+                puts Rainbow("Ingredients: #{recipe.ingredients}").red.bright
+                puts Rainbow("Description: #{recipe.description}").red.bright
+                puts Rainbow("This recipe is tailored for #{recipe.best_for} diets").red.bright
                 if recipe.average > 0
                     puts Rainbow("Rated #{recipe.average} out of 5 stars!\n").bright.red 
                 else
                     puts Rainbow("This recipe hasn't been rated yet!").bright.red 
                 end
+                sleep (1)
             end
         else
-<<<<<<< HEAD
             puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
             sleep (0.5)
-=======
-            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
->>>>>>> 1d0e2c0299b58f9a7ad5921c8c10557a50b6d387
         end
     end
 end

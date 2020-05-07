@@ -1,6 +1,5 @@
 require 'faker'
 
-Recipe.destroy_all
 
 # Seeding user names with Faker
 10.times do 

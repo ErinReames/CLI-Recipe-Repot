@@ -1,10 +1,3 @@
-require 'pry'
-require 'net/http'
-require 'open-uri'
-require 'json'
-require 'rest-client'
-require 'faker'
-
 class PuppyRecipe
     def self.get_data(ingredient,page)
         url = "http://www.recipepuppy.com/api/?i=#{ingredient}&p=#{page.to_i}"

@@ -13,7 +13,11 @@ class Recipe < ActiveRecord::Base
 
     def self.list_rated_recipes(min)
         array = all.select {|recipe| recipe.average >= min}
-        select_recipe(array)
+        if array.count == 0 
+            puts Rainbow("Sorry! It looks like we don't have a recipe rated that highly at the moment.").red.bright
+        else
+            select_recipe(array)
+        end
     end
 
     def self.list_by_diet(diet)
@@ -27,20 +31,20 @@ class Recipe < ActiveRecord::Base
 
     def self.select_recipe(array)
         puts "\n"
-        puts "Enter the number for the recipe you'd like to add."
+        puts Rainbow("Enter the number for the recipe you'd like to add.").red.bright
         sleep (1)
         puts "\n"
         count = 1
         array.each do |recipe|
-            puts "#{count} - #{recipe.name}\n "
+            puts Rainbow("#{count} - #{recipe.name}\n ").red.bright
             count +=1
         end
         response = gets.chomp.to_i
         if response > 0 && response <= array.count
-            puts "\nAdded!"
+            puts Rainbow("\nAdded!").red.bright
             sleep (0.5)
             puts "\n"
-            puts "Come back and rate it once you try it out!"
+            puts Rainbow("Come back and rate it once you try it out!").red.bright
             array[(response - 1)]
         else
             puts Rainbow("Sorry, that is an invalid input.").red.bright.underline

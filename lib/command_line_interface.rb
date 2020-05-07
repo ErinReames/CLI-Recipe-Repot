@@ -47,7 +47,7 @@ class CommandLineInterface
         6 - Delete a rating \n
         7 - List My Recipies \n
         8 - Exit the application\n\n
-        Please enter the number for the option you wish to select."
+        Please enter the number for the option you wish to select.").bright.red 
         puts "\n"
         reply = gets.chomp
         puts "\n"
@@ -97,22 +97,22 @@ class CommandLineInterface
         puts Rainbow("Here's your recipe!").bright.red 
         puts "\n"
         @you.recipes << random
-        puts "Name: #{random.name}"
+        puts Rainbow("Name: #{random.name}").bright.red 
         sleep (1)
-        puts "Ingredients: #{random.ingredients}"
+        puts Rainbow("Ingredients: #{random.ingredients}").bright.red 
         sleep (1)
-        puts "Description: #{random.description}"
+        puts Rainbow("Description: #{random.description}").bright.red 
         sleep(1)
-        puts "This recipe is best for people with #{random.best_for} diets"
+        puts Rainbow("\nThis recipe is best for people with #{random.best_for} diets").bright.red 
         sleep(1)
         if random.average > 0
-            puts "The average rating for this recipe is #{random.average} out of 5 stars!"
+            puts Rainbow("The average rating for this recipe is #{random.average} out of 5 stars!").bright.red 
         else
             puts Rainbow("This recipe hasn't been rated yet!").red.bright
         end
         sleep (1)
         puts "\n"
-        puts "Come back and rate it once you try it out!"
+        puts Rainbow("Come back and rate it once you try it out!").bright.red 
     end
 
     def create_recipe
@@ -120,10 +120,10 @@ class CommandLineInterface
         recipe_name = gets.chomp
         puts Rainbow("\nWhat are the ingredients for #{recipe_name}?\n").red.bright
         recipe_ingredients = gets.chomp
-        puts "\nWow, what is the descripton?"
+        puts Rainbow("\nWow, what is the descripton?").red.bright 
         recipe_description = gets.chomp
         puts "\n"
-        puts "Okay, almost there."
+        puts Rainbow("Okay, almost there.").red.bright
         sleep (1)
         puts "\n"
         diet = best_for_picker
@@ -142,14 +142,13 @@ class CommandLineInterface
     def list_diets
         count = 1
         the_diets.each do |diet| 
-            puts "#{count} - #{diet} \n "
+            puts Rainbow("#{count} - #{diet} \n ").bright.red
             count +=1
         end
-        puts "\n"
     end
 
     def best_for_picker
-        puts "Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'"
+        puts Rainbow("Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'").red.bright
         sleep (1)
         puts "\n"
         list_diets
@@ -193,11 +192,11 @@ class CommandLineInterface
     end
 
     def by_diet_helper
-        puts "Which diet would you like to search by?\n"
+        puts Rainbow("Which diet would you like to search by?\n").red.bright
         puts "\n"
         list_diets
         new_reply = gets.chomp.to_i
-        if new_reply > 0 && new_reply < the_diets.count
+        if new_reply > 0 && the_diets[new_reply - 1]
             response = Recipe.list_by_diet(the_diets[new_reply - 1])
             if response.class == String
                 nil

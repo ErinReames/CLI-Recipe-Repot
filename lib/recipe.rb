@@ -26,7 +26,11 @@ class Recipe < ActiveRecord::Base
 
     def self.list_by_diet(diet)
         array = all.select {|recipe| recipe.best_for == diet}
-        select_recipe(array)
+        if array.count == 0
+            puts "Sorry! It looks like we don't have a recipe tailored for that diet yet."
+        else
+            select_recipe(array)
+        end
     end
 
     def self.select_recipe(array)

@@ -9,42 +9,42 @@ class User < ActiveRecord::Base
             record = Record.find_by({user_id: self.id, recipe_id: recipe.id})
             record
         else 
-            puts "That was not an option."
+            puts Rainbow("That was not an option.").bright.underline.red 
             return false
         end
     end
 
     def create_or_update_rating(record)
         if record.user_rating
-            puts "Your previous rating was #{record.user_rating}.\n"
+            puts Rainbow("Your previous rating was #{record.user_rating}.\n").bright.red 
         end
-        puts "What would you like to rate this recipe, on a scale of 1 to 5?\n"
+        puts Rainbow("What would you like to rate this recipe, on a scale of 1 to 5?\n").bright.red 
         new_rating = gets.chomp
         if new_rating.to_i && new_rating.to_i > 0 && new_rating.to_i < 6
             record.update(user_rating: new_rating.to_i)
-            puts "\nDone!"
+            puts Rainbow("\nDone!").bright.red 
         else
-            puts "That was an invalid rating"
+            puts Rainbow("That was an invalid rating").bright.underline.red 
         end
     end
 
     def delete_rating(record)
-        puts "Are you sure you want to delete - enter 'y' to confirm, press any other key to abort"
+        puts Rainbow("Are you sure you want to delete - enter 'y' to confirm, press any other key to abort").bright.red 
         response = gets.chomp
         if response == "y"
             record.update(user_rating: nil)
-            puts "Done!"
+            puts Rainbow("Done!").red.bright
             return true
         end
-        puts "Aborted!\nReturning you to the menu."
+        puts Rainbow("Aborted!\nReturning you to the menu.").bright.red 
     end
 
     def update_or_delete__my_recipe_rating(action)
         if self.recipes.count >= 1
-            puts "Enter the cooresponding number of the recipe you wish to choose. \n"
+            puts Rainbow("Enter the cooresponding number of the recipe you wish to choose. \n").bright.red 
             count = 1
             self.recipes.each do |recipe| 
-                puts "#{count} #{recipe.name}"
+                puts Rainbow("#{count} #{recipe.name}").bright.red 
                 count +=1
             end
             puts "\n"
@@ -54,10 +54,10 @@ class User < ActiveRecord::Base
             elsif record && action == "delete"
                 delete_rating(record)
             else
-                puts "\nReturning you to the menu."
+                puts Rainbow("\nReturning you to the menu.").red.bright
             end
         else
-            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
+            puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
         end
     end
 
@@ -69,14 +69,14 @@ class User < ActiveRecord::Base
                 puts "#{recipe.description}"
                 puts "#{recipe.best_for}"
                 if recipe.average > 0
-                    puts "Rated #{recipe.average} out of 5 stars!\n"
+                    puts Rainbow("Rated #{recipe.average} out of 5 stars!\n").bright.red 
                 else
-                    puts "This recipe hasn't been rated yet!"
+                    puts Rainbow("This recipe hasn't been rated yet!").bright.red 
                 end
                 sleep (0.5)
             end
         else
-            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
+            puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
             sleep (0.5)
         end
     end

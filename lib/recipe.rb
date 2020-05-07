@@ -19,7 +19,7 @@ class Recipe < ActiveRecord::Base
     def self.list_by_diet(diet)
         array = all.select {|recipe| recipe.best_for == diet}
         if array.count == 0
-            puts "Sorry! It looks like we don't have a recipe tailored for that diet yet."
+            puts Rainbow("Sorry! It looks like we don't have a recipe tailored for that diet yet.").red.bright
         else
             select_recipe(array)
         end
@@ -29,23 +29,23 @@ class Recipe < ActiveRecord::Base
         puts "\n"
         count = 1
         array.each do |recipe|
-            puts "#{count} #{recipe.name}\n "
+            puts Rainbow("#{count} #{recipe.name}\n ").red.bright
             count +=1
         end
-        puts "Enter the number for the recipe you'd like to add.\n"
+        puts Rainbow("Enter the number for the recipe you'd like to add.\n").bright.red 
         response = gets.chomp.to_i
         if response && response  <= array.count
-            puts "\nAdded!"
+            puts Rainbow("\nAdded!").bright.red 
             sleep (0.5)
             puts "\n"
-            puts "Come back and rate it once you try it out!"
+            puts Rainbow("Come back and rate it once you try it out!").red.bright
             sleep (0.5)
             array[(response - 1)]
         else
-            puts "Sorry, that is an invalid input."
+            puts Rainbow("Sorry, that is an invalid input.").red.bright.underline
             puts "\n"
             sleep (1)
-            puts "We will now return you to the menu"
+            puts Rainbow("We will now return you to the menu").red.bright.underline 
             nil
         end
     end

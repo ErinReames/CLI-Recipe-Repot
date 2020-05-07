@@ -1,29 +1,44 @@
+
 class CommandLineInterface
     attr_accessor :you
+    def greet 
+        puts Rainbow("
+        /$$$$$$$                      /$$                           /$$$$$$$                                  /$$    
+        | $$__  $$                    |__/                          | $$__  $$                                | $$    
+        | $$  \ $$  /$$$$$$   /$$$$$$$ /$$  /$$$$$$   /$$$$$$       | $$  \ $$  /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$  
+        | $$$$$$$/ /$$__  $$ /$$_____/| $$ /$$__  $$ /$$__  $$      | $$$$$$$/ /$$__  $$ /$$__  $$ /$$__  $$|_  $$_/  
+        | $$__  $$| $$$$$$$$| $$      | $$| $$  \ $$| $$$$$$$$      | $$__  $$| $$$$$$$$| $$  \ $$| $$  \ $$  | $$    
+        | $$  \ $$| $$_____/| $$      | $$| $$  | $$| $$_____/      | $$  \ $$| $$_____/| $$  | $$| $$  | $$  | $$ /$$
+        | $$  | $$|  $$$$$$$|  $$$$$$$| $$| $$$$$$$/|  $$$$$$$      | $$  | $$|  $$$$$$$| $$$$$$$/|  $$$$$$/  |  $$$$/
+        |__/  |__/ \_______/ \_______/|__/| $$____/  \_______/      |__/  |__/ \_______/| $$____/  \______/    \___/  
+                                          | $$                                          | $$                          
+                                          | $$                                          | $$                          
+                                          |__/                                          |__/                          
 
-    def greet
+
+        ").red 
         puts "\n"
-        puts "Welcome to The Recipe Repo!"
+        puts Rainbow("Welcome to The Recipe Repot!").bright.red 
         puts "\n"
         sleep (1)
-        puts "Please enter your name in order to log in or create your account."
+        puts Rainbow("Please enter your name in order to log in or create your account.").bright.red
         puts "\n"
         user_name = gets.chomp
         puts "\n"
         if User.find_by(name: user_name) != nil
-            puts "Welcome back #{user_name}!"
+            puts Rainbow("Welcome back #{user_name}!").bright.red 
         else
-            puts "Welcome #{user_name}!"
+            puts Rainbow("Welcome #{user_name}!").bright.red 
         end
         @you = User.find_or_create_by(name: user_name)
         sleep(1)
         puts "\n"
-        puts "You may now search for a recipe, rate a recipe, or contribute your own!"
+        puts Rainbow("You may now search for a recipe, rate a recipe, or contribute your own!").bright.red 
         sleep (1.3)
     end
 
     def menu
-        puts "
+        puts Rainbow("
         1 - Create a recipe \n
         2 - Search for recipe \n
         3 - Give me a random recipe! \n
@@ -31,7 +46,7 @@ class CommandLineInterface
         5 - Update a rating \n
         6 - Delete a rating \n
         7 - List My Recipies \n
-        8 - Exit the application\n"
+        8 - Exit the application\n").bright.red 
         puts "\n"
         reply = gets.chomp
         puts "\n"
@@ -55,7 +70,7 @@ class CommandLineInterface
         when "7"
             @you.list_recipes
         when "8"
-            puts "Thank you. Hope to see you again!\n"
+            puts Rainbow("Thank you. Hope to see you again!\n").bright.red 
             return nil
         else
             self.error
@@ -67,54 +82,54 @@ class CommandLineInterface
 
     def error
         puts "\n"
-        puts "That was an invalid entry."
+        puts Rainbow("That was an invalid entry.").bright.red.underline
         puts "\n"
         sleep (1)
-        puts "You will now be returned to the menu screen"
+        puts Rainbow("You will now be returned to the menu screen").bright.underline.red 
     end
 
     def random_recipe
-        puts "So you're feeling lucky, huh?"
+        puts Rainbow("So you're feeling lucky, huh?").bright.red.italic
         puts "\n"
         random = Recipe.all.sample 
         sleep (1)
-        puts "Here's your recipe!"
+        puts Rainbow("Here's your recipe!").bright.red 
         puts "\n"
         @you.recipes << random
-        puts "#{random.name}"
+        puts Rainbow("#{random.name}").bright.red 
         sleep (1)
-        puts "#{random.ingredients}"
+        puts Rainbow("#{random.ingredients}").bright.red 
         sleep (1)
-        puts "#{random.description}"
+        puts Rainbow("#{random.description}").bright.red 
         sleep(1)
-        puts "This recipe is best for people with a #{random.best_for} diet"
+        puts Rainbow("This recipe is best for people with a #{random.best_for} diet").bright.red
         sleep(1)
         if random.average > 0
-            puts "and the average rating for this recipe is #{random.average} out of 5 stars!"
+            puts Rainbow("and the average rating for this recipe is #{random.average} out of 5 stars!").bright.red 
         else
-            puts "This recipe hasn't been rated yet!"
+            puts Rainbow("This recipe hasn't been rated yet!").red.bright
         end
         puts "\n"
         sleep (1)
-        puts "Come back and rate it once you try it out!"
+        puts Rainbow("Come back and rate it once you try it out!").red.bright
     end
 
     def create_recipe
-        puts "Let's create a new recipe! What is your recipe called?\n"
+        puts Rainbow("Let's create a new recipe! What is your recipe called?\n").red.bright
         recipe_name = gets.chomp
-        puts "\nWhat are the ingredients for #{recipe_name}?\n"
+        puts Rainbow("\nWhat are the ingredients for #{recipe_name}?\n").red.bright
         recipe_ingredients = gets.chomp
-        puts "\nWow, what is the descripton?\n"
+        puts Rainbow("\nWow, what is the descripton?\n").red.bright
         recipe_description = gets.chomp
         puts "\n"
-        puts "Okay, almost there.\n"
+        puts Rainbow("Okay, almost there.\n").red.bright
         diet = best_for_picker
         Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description, best_for: diet})
         sleep (1)
-        puts "\nYou did it!"
+        puts Rainbow("\nYou did it!").red.bright
         puts "\n"
         sleep (1)
-        puts "Your recipe is now published for everyone to see!\n"
+        puts Rainbow("Your recipe is now published for everyone to see!\n").red.bright
     end
 
     def the_diets
@@ -124,27 +139,27 @@ class CommandLineInterface
     def list_diets
         count = 1
         the_diets.each do |diet| 
-            puts "#{count} #{diet}"
+            puts Rainbow("#{count} #{diet}").bright.red 
             count +=1
         end
         puts "\n"
     end
 
     def best_for_picker
-        puts "Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'"
+        puts Rainbow("Is there a diet this recipe is best for?\nIf not, hit any other key and we will set it to 'Unrestricted'").bright.red 
         puts "\n"
         list_diets
         response = gets.chomp.to_i 
         if the_diets[response - 1]
             the_diets[response - 1]
         else 
-            puts "\nSet to 'Unrestrcted'"
-            return "Unrestricted"
+            puts Rainbow("\nSet to 'Unrestrcted'").bright.red 
+            return Rainbow("Unrestricted").bright.red 
         end
     end
 
     def recipe_search_menu
-        puts "How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!"
+        puts Rainbow("How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!").bright.red 
         reply = gets.chomp
         puts "\n"
         case reply
@@ -161,7 +176,7 @@ class CommandLineInterface
     end
 
     def by_rating_helper
-        puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)\n"
+        puts Rainbow("What is the minimum rating you wish to see? (On a scale of 1 to 5)\n").bright.red 
         new_reply = gets.chomp.to_i
         if new_reply > 0 && new_reply < 6
             Recipe.list_rated_recipes(new_reply)
@@ -172,7 +187,7 @@ class CommandLineInterface
     end
 
     def by_diet_helper
-        puts "Which diet would you like to search by?\n"
+        puts Rainbow("Which diet would you like to search by?\n").bright.red 
         list_diets
         new_reply = gets.chomp.to_i
         if new_reply > 0 && new_reply < the_diets.count

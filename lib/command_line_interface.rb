@@ -13,6 +13,7 @@ class CommandLineInterface
         @you = User.find_or_create_by(name: @user_name)
         sleep(1)
         puts "You may now search for a recipe, rate a recipe, or contribute your own!"
+        # Recipe.assign_ratings
         sleep (1)
     end
 
@@ -55,7 +56,7 @@ class CommandLineInterface
         else
             self.error
         end
-        sleep (1.3)
+        sleep (1)
         menu
     end
 
@@ -67,9 +68,9 @@ class CommandLineInterface
             temp = Recipe.list_all_recipes
         when "2"
             puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)"
-            new_reply = gets.chomp
-            if new_reply.to_i > 0 && new_reply.to_i < 6
-                temp = Recipe.list_rated_recipes(new_reply.to_i)
+            new_reply = gets.chomp.to_i
+            if new_reply > 0 && new_reply < 6
+                temp = Recipe.list_rated_recipes(new_reply)
             else
                 self.error
                 temp = nil
@@ -96,7 +97,7 @@ class CommandLineInterface
         puts "#{random.ingredients}"
         sleep (1)
         puts "#{random.description}"
-        puts "#{random.rating}"
+        puts "#{random.average}"
         sleep (1)
         puts "Come back and rate it once you try it out!"
     end
@@ -111,6 +112,7 @@ class CommandLineInterface
         Recipe.create({name: recipe_name, ingredients: recipe_ingredients, description: recipe_description})
         sleep (1)
         puts "\nYou did it!\n"
+        sleep (1)
         puts "Your recipe is now published for everyone to see!\n"
     end
 

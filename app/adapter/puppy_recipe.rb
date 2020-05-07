@@ -12,10 +12,8 @@ class PuppyRecipe
         response_body = response.body
         json_response = JSON.parse(response_body)
         recipes = json_response["results"].map do |recipe|
-            {name: recipe["title"].delete("\n"), ingredients: recipe["ingredients"], description: Faker::Food.description}
+            {name: recipe["title"].strip, ingredients: recipe["ingredients"], description: Faker::Food.description}
         end
-        # binding.pry
+        recipes.first(2)
     end
 end
-# PuppyRecipe.get_data("gravy",2)
-# puts "Done!"

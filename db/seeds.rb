@@ -2,33 +2,25 @@ require 'faker'
 
 Recipe.destroy_all
 
-
+# Seeding user names with Faker
 5.times do 
     User.create({name: Faker::Name.name})
 end
 
-
-# 10.times do 
-#     temp_ingredients = []
-#     3.times do 
-#         temp_ingredients << Faker::Food.ingredient
-#     end
-#     joined_ingredients = temp_ingredients.join(", ")
-#     Recipe.create({
-#         name: Faker::Food.dish,
-#         ingredients: joined_ingredients,
-#         description: Faker::Food.description,
-#         rating: nil
-#         })
-# end 
-recipes = PuppyRecipe.get_data("gravy",2)
-# building API using ingredient keyword "gravy" and going to page 2 of results (page 1 has weird characters in strings)
-# binding.pry
-recipes.each do |recipe|
-    entry = Recipe.new(recipe)
-    entry.save
+# Seeding recipes with a combination of API and Faker: name and ingredients are API and descrpition is Faker
+# Change any ingredients in this array to change what kind of recipes get seeded.  Each ingredient provides two recipes, for 10 total
+ingredients = ["eggs", "apple", "potato", "chocolate", "chicken"]
+count = 0
+5.times do
+    recipes = PuppyRecipe.get_data(ingredients[count],1)
+    recipes.each do |recipe|
+        entry = Recipe.new(recipe)
+        entry.save
+    end
+    count +=1
 end
 
+# Record instances with recipe ratings
 20.times do
     Record.create({
         user_id: (rand(5) + 1),

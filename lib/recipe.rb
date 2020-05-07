@@ -3,14 +3,6 @@ class Recipe < ActiveRecord::Base
     has_many :records 
     has_many :users, through: :records
 
-    def self.every_average
-        array = all.map do |recipe|
-           [recipe.id, recipe.records.average(:user_rating).round]
-        end
-        hash = Hash[array.map {|key, value| [key, value]}]
-        hash
-    end
-
     def average
         records.average(:user_rating).round
     end

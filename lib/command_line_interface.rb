@@ -1,8 +1,5 @@
 class CommandLineInterface
-    attr_accessor :user_name, :you
-    def the_diets
-        ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie", "Unrestricted"]
-    end
+    attr_accessor :you
 
     def greet
         puts "\n"
@@ -11,18 +8,18 @@ class CommandLineInterface
         sleep (1)
         puts "Please enter your name in order to log in or create your account."
         puts "\n"
-        @user_name = gets.chomp
+        user_name = gets.chomp
         puts "\n"
-        if User.find_by(name: @user_name) != nil
-            puts "Welcome back #{@user_name}!"
+        if User.find_by(name: user_name) != nil
+            puts "Welcome back #{user_name}!"
         else
-            puts "Welcome #{@user_name}!"
+            puts "Welcome #{user_name}!"
         end
-        @you = User.find_or_create_by(name: @user_name)
+        @you = User.find_or_create_by(name: user_name)
         sleep(1)
         puts "\n"
         puts "You may now search for a recipe, rate a recipe, or contribute your own!"
-        sleep (1)
+        sleep (1.3)
     end
 
     def menu
@@ -46,44 +43,26 @@ class CommandLineInterface
         when "1"
             self.create_recipe
         when "2"
-            temp = self.recipe_search_menu
-            if temp
-                @you.recipes << temp
-            end
+            self.recipe_search_menu
         when "3"
             self.random_recipe
         when "4"
-            @you.update_my_recipe_rating
+            @you.update_or_delete__my_recipe_rating("update")
         when "5"
-            @you.update_my_recipe_rating   
+            @you.update_or_delete__my_recipe_rating("update")   
         when "6"
-            @you.delete_my_recipe_rating
+            @you.update_or_delete__my_recipe_rating("delete")
         when "7"
             @you.list_recipes
         when "8"
-            puts "Thank you. Hope to see you again!"
-            return "Goodbye."
+            puts "Thank you. Hope to see you again!\n"
+            return nil
         else
             self.error
         end
         puts "\n"
         sleep (1)
         menu
-    end
-
-    def recipe_search_menu
-        puts "How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!"
-        reply = gets.chomp
-        puts "\n"
-        case reply
-        when "1"
-            temp = Recipe.list_all_recipes
-        when "2"
-            by_rating_helper
-        when "3"
-            by_diet_helper
-        end
-        temp 
     end
 
     def error
@@ -138,9 +117,8 @@ class CommandLineInterface
         puts "Your recipe is now published for everyone to see!\n"
     end
 
-    def run
-        self.greet
-        self.menu
+    def the_diets
+        ["Vegetarian", "Vegan", "Gluten Free", "Keto", "Nut Free", "Dairy Free", "Low Calorie", "Unrestricted"]
     end
 
     def list_diets
@@ -165,14 +143,31 @@ class CommandLineInterface
         end
     end
 
+    def recipe_search_menu
+        puts "How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!"
+        reply = gets.chomp
+        puts "\n"
+        case reply
+        when "1"
+            temp = Recipe.list_all_recipes
+        when "2"
+            temp = by_rating_helper
+        when "3"
+            temp = by_diet_helper
+        end
+        if temp
+            @you.recipes << temp
+        end
+    end
+
     def by_rating_helper
         puts "What is the minimum rating you wish to see? (On a scale of 1 to 5)\n"
         new_reply = gets.chomp.to_i
         if new_reply > 0 && new_reply < 6
-            temp = Recipe.list_rated_recipes(new_reply)
+            Recipe.list_rated_recipes(new_reply)
         else
             self.error
-            temp = nil
+            nil
         end
     end
 
@@ -183,11 +178,16 @@ class CommandLineInterface
         if new_reply > 0 && new_reply < the_diets.count
             response = Recipe.list_by_diet(the_diets[new_reply - 1])
             if response.class == String
-                temp = nil
+                nil
             end
         else
             self.error
-            temp = nil
+            nil
         end
+    end
+
+    def run
+        self.greet
+        self.menu
     end
 end

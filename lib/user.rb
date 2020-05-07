@@ -35,7 +35,29 @@ class User < ActiveRecord::Base
             record.update(user_rating: nil)
             puts "Done!"
         end
-        puts "Returning you to the menu."
+        puts "Aborted!\nReturning you to the menu."
+    end
+
+    def update_or_delete__my_recipe_rating(action)
+        if self.recipes.count >= 1
+            puts "Enter the cooresponding number of the recipe you wish to choose. \n"
+            count = 1
+            self.recipes.each do |recipe| 
+                puts "#{count} #{recipe.name}"
+                count +=1
+            end
+            puts "\n"
+            record = self.pick_my_recipes
+            if record && action == "update"
+                create_or_update_rating(record)
+            elsif record && action == "delete"
+                delete_rating(record)
+            else
+                puts "\nReturning you to the menu."
+            end
+        else
+            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
+        end
     end
 
     def list_recipes
@@ -46,7 +68,7 @@ class User < ActiveRecord::Base
                 puts "#{recipe.description}"
                 puts "#{recipe.best_for}"
                 if recipe.average > 0
-                    puts "rated #{recipe.average} out of 5 stars!\n"
+                    puts "Rated #{recipe.average} out of 5 stars!\n"
                 else
                     puts "This recipe hasn't been rated yet!"
                 end
@@ -55,40 +77,6 @@ class User < ActiveRecord::Base
         else
             puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
             sleep (0.5)
-        end
-    end
-
-    def update_my_recipe_rating
-        if self.recipes.count >= 1
-            puts "Enter the cooresponding number of the recipe you wish to rate. \n"
-            count = 1
-            self.recipes.each do |recipe| 
-                puts "#{count} #{recipe.name}"
-                count +=1
-            end
-            puts "\n"
-            record = self.pick_my_recipes
-            if record
-                create_or_update_rating(record)
-            end
-        else
-            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
-        end
-    end
-
-    def delete_my_recipe_rating
-        if self.recipes.count >= 1
-            count = 1
-            self.recipes.each do |recipe| 
-                puts "#{count} #{recipe.name}"
-                count +=1
-            end
-            record = pick_my_recipes
-            if record
-                delete_rating(record)
-            end
-        else
-            puts "Uh-oh looks like you haven't tried any recipes you silly goose!"
         end
     end
 end

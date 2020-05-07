@@ -90,9 +90,18 @@ class CommandLineInterface
     end
 
     def random_recipe
+        random = Recipe.all.sample
+        while @you.recipes.include?(random) do
+            random = Recipe.all.sample
+            if @you.recipes.uniq.count == Recipe.all.count
+                puts Rainbow("WOW! you already have checkout out all our recipes! \n ").bright.red
+                sleep (1)
+                puts Rainbow("You will now be returned to the menu screen").bright.underline.red 
+                return nil
+            end
+        end
         puts Rainbow("So you're feeling lucky, huh?").bright.red.italic
         puts "\n"
-        random = Recipe.all.sample 
         sleep (1)
         puts Rainbow("Here's your recipe!").bright.red 
         puts "\n"
@@ -162,6 +171,12 @@ class CommandLineInterface
     end
 
     def recipe_search_menu
+        if @you.recipes.uniq.count == Recipe.all.count
+            puts Rainbow("WOW! you already have checkout out all our recipes! \n ").bright.red
+            sleep (0.7)
+            puts Rainbow("Come back another time and see if there are more recipes avalible, or contribute your own!").bright.red
+            return nil
+        end
         puts Rainbow("How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!\n").bright.red 
         reply = gets.chomp
         puts "\n"

@@ -40,6 +40,11 @@ class CommandLineInterface
     def menu
         system "clear"
         puts Rainbow("
+            
+            ░█▀▄▀█ ─█▀▀█ ▀█▀ ░█▄─░█ 　 ░█▀▄▀█ ░█▀▀▀ ░█▄─░█ ░█─░█ 
+            ░█░█░█ ░█▄▄█ ░█─ ░█░█░█ 　 ░█░█░█ ░█▀▀▀ ░█░█░█ ░█─░█ 
+            ░█──░█ ░█─░█ ▄█▄ ░█──▀█ 　 ░█──░█ ░█▄▄▄ ░█──▀█ ─▀▄▄▀ \n ").red
+        puts Rainbow("
         1 - Create a recipe \n
         2 - Search for recipe \n
         3 - Give me a random recipe! \n

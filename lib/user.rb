@@ -2,13 +2,14 @@ class User < ActiveRecord::Base
     has_many :records
     has_many :recipes, through: :records
         
-    def pick_my_recipes
+    def pick_my_recipes(array)
         response = gets.chomp.to_i 
         puts "\n"
-        if self.recipes[response - 1].name.class == String && response > 0
-            Record.find_by({user_id: self.id, recipe_id: (self.recipes[response - 1]).id})
+        if response < (array.count + 1) && response > 0
+            Record.find_by({user_id: self.id, recipe_id: (array[response - 1]).id})
         else 
             puts Rainbow("That was not an option.").bright.underline.red 
+            sleep (1)
             return false
         end
     end
@@ -22,8 +23,10 @@ class User < ActiveRecord::Base
         if new_rating.to_i && new_rating.to_i > 0 && new_rating.to_i < 6
             record.update(user_rating: new_rating.to_i)
             puts Rainbow("\nDone!").bright.red 
+            sleep (1)
         else
             puts Rainbow("\nThat was an invalid rating").red.bright.underline
+            sleep (1)
         end
     end
 
@@ -36,30 +39,54 @@ class User < ActiveRecord::Base
             return true
         end
         puts Rainbow("Aborted!\nReturning you to the menu.").bright.red.underline
+        sleep (1)
     end
 
     def update_or_delete__my_recipe_rating(action)
         if self.recipes.count >= 1
-            puts Rainbow("Enter the corresponding number of the recipe you wish to choose.").red.bright
-            sleep(1)
-            puts "\n"
             count = 1
-            self.recipes.uniq.each do |recipe| 
-                puts Rainbow("#{count} - #{recipe.name} \n").bright.red 
-                count +=1
+            temp = []
+            if action == "create"
+                self.recipes.uniq.each do |recipe| 
+                    if Record.find_by({user_id: self.id, recipe_id: recipe.id}).user_rating == nil
+                        puts Rainbow("#{count} - #{recipe.name} \n").bright.red
+                        count +=1
+                        temp << recipe
+                    end
+                end
+                temp
+            else
+                self.recipes.uniq.each do |recipe| 
+                    if Record.find_by({user_id: self.id, recipe_id: recipe.id}).user_rating != nil
+                        puts Rainbow("#{count} - #{recipe.name} \n").bright.red 
+                        count +=1
+                        temp << recipe
+                    end
+                end
+                temp
             end
             puts "\n"
-            record = self.pick_my_recipes
-            system "clear"
-            if record && action == "update"
-                create_or_update_rating(record)
-            elsif record && action == "delete"
-                delete_rating(record)
+            if temp.count > 0
+                puts Rainbow("Enter the corresponding number of the recipe you wish to choose.").red.bright
+                sleep(1)
+                puts "\n"
+                record = self.pick_my_recipes(temp)
+                system "clear"
+                if record && action == "update" || record && action == "create"
+                    create_or_update_rating(record)
+                elsif record && action == "delete"
+                    delete_rating(record)
+                else
+                    puts Rainbow("\nReturning you to the menu.").red.bright
+                    sleep (1)
+                end
             else
-                puts Rainbow("\nReturning you to the menu.").red.bright
+                puts Rainbow("Uh-oh looks like you dont have any recipes to change yet! \nTry another rating menu option!").red.bright.italic
+                sleep (1)
             end
         else
             puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
+            sleep (1)
         end
     end
 

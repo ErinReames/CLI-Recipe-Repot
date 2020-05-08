@@ -69,7 +69,7 @@ class CommandLineInterface
         when "3"
             self.random_recipe
         when "4"
-            @you.update_or_delete__my_recipe_rating("update")
+            @you.update_or_delete__my_recipe_rating("create")
         when "5"
             @you.update_or_delete__my_recipe_rating("update")   
         when "6"

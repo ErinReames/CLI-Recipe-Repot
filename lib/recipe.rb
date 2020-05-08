@@ -29,7 +29,7 @@ class Recipe < ActiveRecord::Base
     end
 
     def self.select_recipe(array)
-        puts "\n"
+        system "clear"
         puts Rainbow("Enter the number for the recipe you'd like to add.").red.bright
         sleep (1)
         puts "\n"

@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
             end
             puts "\n"
             record = self.pick_my_recipes
+            system "clear"
             if record && action == "update"
                 create_or_update_rating(record)
             elsif record && action == "delete"
@@ -74,11 +75,13 @@ class User < ActiveRecord::Base
                 else
                     puts Rainbow("This recipe hasn't been rated yet!").bright.red 
                 end
-                sleep (1)
             end
+            sleep (1.5)
+            puts Rainbow(" \n\nPress enter to return to the menu.").bright.red.underline
+            gets.chomp
         else
             puts Rainbow("Uh-oh looks like you haven't tried any recipes you silly goose!").red.bright.italic
-            sleep (0.5)
+            sleep (0.8)
         end
     end
 end

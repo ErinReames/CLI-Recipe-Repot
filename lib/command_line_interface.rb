@@ -2,6 +2,7 @@
 class CommandLineInterface
     attr_accessor :you
     def greet 
+        system "clear"
         puts Rainbow("
          /$$$$$$$                      /$$                           /$$$$$$$                                  /$$    
         | $$__  $$                    |__/                          | $$__  $$                                | $$    
@@ -17,10 +18,10 @@ class CommandLineInterface
 
 
         ").red 
+        sleep (1)
         puts "\n"
         puts Rainbow("Welcome to The Recipe Repot!").bright.red 
         puts "\n"
-        sleep (1)
         puts Rainbow("Please enter your name in order to log in or create your account.").bright.red
         puts "\n"
         user_name = gets.chomp
@@ -32,12 +33,12 @@ class CommandLineInterface
         end
         @you = User.find_or_create_by(name: user_name)
         sleep(1)
-        puts "\n"
-        puts Rainbow("You may now search for a recipe, rate a recipe, or contribute your own!").bright.red 
+        puts Rainbow(" \nYou may now search for a recipe, rate a recipe, or contribute your own!").bright.red 
         sleep (1.3)
     end
 
     def menu
+        system "clear"
         puts Rainbow("
         1 - Create a recipe \n
         2 - Search for recipe \n
@@ -50,7 +51,7 @@ class CommandLineInterface
         Please enter the number for the option you wish to select.").bright.red 
         puts "\n"
         reply = gets.chomp
-        puts "\n"
+        system "clear"
         menu_functions(reply)
     end
 
@@ -72,11 +73,12 @@ class CommandLineInterface
             @you.list_recipes
         when "8"
             puts Rainbow("Thank you. Hope to see you again!\n").bright.red 
+            sleep (2)
+            system "clear"
             return nil
         else
             self.error
         end
-        puts "\n"
         sleep (1)
         menu
     end
@@ -94,8 +96,9 @@ class CommandLineInterface
         while @you.recipes.include?(random) do
             random = Recipe.all.sample
             if @you.recipes.uniq.count == Recipe.all.count
+                system "clear"
                 puts Rainbow("WOW! you already have checkout out all our recipes! \n ").bright.red
-                sleep (1)
+                sleep (1.3)
                 puts Rainbow("You will now be returned to the menu screen").bright.underline.red 
                 return nil
             end
@@ -121,7 +124,8 @@ class CommandLineInterface
         end
         sleep (1)
         puts "\n"
-        puts Rainbow("Come back and rate it once you try it out!").bright.red 
+        puts Rainbow("Come back and rate it once you try it out!").bright.red
+        sleep (2)
     end
 
     def create_recipe
@@ -142,6 +146,7 @@ class CommandLineInterface
         puts "\n"
         sleep (1)
         puts Rainbow("Your recipe is now published for everyone to see!\n").red.bright
+        sleep (1)
     end
 
     def the_diets
@@ -173,13 +178,13 @@ class CommandLineInterface
     def recipe_search_menu
         if @you.recipes.uniq.count == Recipe.all.count
             puts Rainbow("WOW! you already have checkout out all our recipes! \n ").bright.red
-            sleep (0.7)
+            sleep (1)
             puts Rainbow("Come back another time and see if there are more recipes avalible, or contribute your own!").bright.red
             return nil
         end
         puts Rainbow("How would you like to search for recipes?\n\n1. List them all!\n\n2. List those above a rating!\n\n3. List those of a certain diet!\n").bright.red 
         reply = gets.chomp
-        puts "\n"
+        system "clear"
         case reply
         when "1"
             temp = Recipe.list_all_recipes
@@ -198,6 +203,7 @@ class CommandLineInterface
     def by_rating_helper
         puts Rainbow("What is the minimum rating you wish to see? (On a scale of 1 to 5)\n").bright.red 
         new_reply = gets.chomp.to_i
+        system "clear"
         if new_reply > 0 && new_reply < 6
             Recipe.list_rated_recipes(new_reply)
         else
@@ -211,6 +217,7 @@ class CommandLineInterface
         puts "\n"
         list_diets
         new_reply = gets.chomp.to_i
+        system "clear"
         if new_reply > 0 && the_diets[new_reply - 1]
             response = Recipe.list_by_diet(the_diets[new_reply - 1])
         else
